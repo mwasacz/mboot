@@ -1,7 +1,5 @@
-#
-# Makefile for rBoot
-# https://github.com/raburton/esp8266
-#
+# Makefile for MBoot
+# Based on the makefile for rBoot (https://github.com/raburton/esp8266)
 
 ESPTOOL2 ?= ../esptool2/esptool2
 
@@ -101,8 +99,8 @@ endif
 
 .SECONDARY:
 
-#all: $(RBOOT_BUILD_BASE) $(RBOOT_FW_BASE) $(RBOOT_FW_BASE)/rboot.bin $(RBOOT_FW_BASE)/testload1.bin $(RBOOT_FW_BASE)/testload2.bin
-all: $(RBOOT_BUILD_BASE) $(RBOOT_FW_BASE) $(RBOOT_FW_BASE)/rboot.bin
+#all: $(RBOOT_BUILD_BASE) $(RBOOT_FW_BASE) $(RBOOT_FW_BASE)/mboot.bin $(RBOOT_FW_BASE)/testload1.bin $(RBOOT_FW_BASE)/testload2.bin
+all: $(RBOOT_BUILD_BASE) $(RBOOT_FW_BASE) $(RBOOT_FW_BASE)/mboot.bin
 
 $(RBOOT_BUILD_BASE):
 	mkdir -p $@
@@ -122,7 +120,7 @@ $(RBOOT_BUILD_BASE)/rboot-hex2a.h: $(RBOOT_BUILD_BASE)/rboot-stage2a.elf
 	@echo "E2 $@"
 	$(Q) $(ESPTOOL2) -quiet -header $< $@ .text
 
-$(RBOOT_BUILD_BASE)/rboot.o: rboot.c rboot-private.h rboot.h $(RBOOT_BUILD_BASE)/rboot-hex2a.h
+$(RBOOT_BUILD_BASE)/mboot.o: rboot.c rboot-private.h rboot.h $(RBOOT_BUILD_BASE)/rboot-hex2a.h
 	@echo "CC $<"
 	$(Q) $(CC) $(CFLAGS) -I$(RBOOT_BUILD_BASE) -c $< -o $@
 

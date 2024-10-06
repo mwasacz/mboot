@@ -1,12 +1,16 @@
-#ifndef __RBOOT_PRIVATE_H__
-#define __RBOOT_PRIVATE_H__
+// This file is part of MBoot
+// Copyright (C) 2021 Mikolaj Wasacz
+// SPDX-License-Identifier: MIT
 
-//////////////////////////////////////////////////
+// This file includes code from rBoot by Richard A Burton, covered by the following copyright notice:
+
 // rBoot open source boot loader for ESP8266.
 // Copyright 2015 Richard A Burton
 // richardaburton@gmail.com
 // See license.txt for license terms.
-//////////////////////////////////////////////////
+
+#ifndef __RBOOT_PRIVATE_H__
+#define __RBOOT_PRIVATE_H__
 
 #include <rboot.h>
 
@@ -22,6 +26,15 @@
 // stage2 read chunk maximum size (limit for SPIRead)
 #define READ_SIZE 0x1000
 
+typedef struct {
+	uint32_t deviceId;
+	uint32_t chip_size;
+	uint32_t block_size;
+	uint32_t sector_size;
+	uint32_t page_size;
+	uint32_t status_mask;
+} SpiFlashChip;
+
 // esp8266 built in rom functions
 extern uint32_t SPIRead(uint32_t addr, void *outptr, uint32_t len);
 extern uint32_t SPIEraseSector(int);
@@ -30,6 +43,26 @@ extern void ets_printf(char*, ...);
 extern void ets_delay_us(int);
 extern void ets_memset(void*, uint8_t, uint32_t);
 extern void ets_memcpy(void*, const void*, uint32_t);
+extern SpiFlashChip *flashchip;
+
+typedef struct {
+	char *label;
+	uint32_t size;
+	uint32_t rom1_addr;
+} flash_info;
+
+typedef union {
+	uint8_t sector;
+	uint32_t raw[1];
+} sector_config;
+
+typedef union {
+	uint16_t config;
+	uint32_t raw[2];
+} rom_config;
+
+#define DEFAULT_ROM		0x0001
+#define BOOTING_DEFAULT	0x0004
 
 // functions we'll call by address
 typedef void stage2a(uint32_t);

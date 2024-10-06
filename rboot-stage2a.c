@@ -1,9 +1,12 @@
-//////////////////////////////////////////////////
+// This file is part of MBoot
+// SPDX-License-Identifier: MIT
+
+// This file includes code from rBoot by Richard A Burton, covered by the following copyright notice:
+
 // rBoot open source boot loader for ESP8266.
 // Copyright 2015 Richard A Burton
 // richardaburton@gmail.com
 // See license.txt for license terms.
-//////////////////////////////////////////////////
 
 #ifdef RBOOT_INTEGRATION
 #include <rboot-integration.h>
